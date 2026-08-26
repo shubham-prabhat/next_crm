@@ -1,0 +1,108 @@
+<template>
+  <Dialog
+    v-model="show"
+    :options="{
+      title: __('Rename'),
+      size: 'md',
+      actions: [
+        {
+          label: __('Rename'),
+          variant: 'solid',
+          onClick: renameDoc,
+        },
+      ],
+    }"
+  >
+    <template #body-content>
+      <div>
+        <FormControl
+          :type="'text'"
+          size="md"
+          variant="subtle"
+          :disabled="false"
+          label="New Title"
+          v-model="_name.title"
+        />
+      </div>
+      <div class="mt-6" v-if="allowRenameDocname">
+        <FormControl
+          :type="'text'"
+          size="md"
+          variant="subtle"
+          :disabled="false"
+          label="New Name"
+          v-model="_name.name"
+        />
+      </div>
+    </template>
+  </Dialog>
+</template>
+
+<script setup>
+import { ref, nextTick, watch, computed } from 'vue'
+import { call, toast } from 'frappe-ui'
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+  doctype: {
+    type: String,
+    default: 'Opportunity',
+  },
+  docname: {
+    type: String,
+    default: '',
+  },
+  options: {
+    type: Object,
+    default: () => ({
+      afterRename: () => {},
+    }),
+  },
+  allow_rename_docname: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const allowRenameDocname = computed(() => props.allow_rename_docname)
+
+const _name = ref({
+  title: '',
+  name: '',
+})
+
+const show = defineModel()
+
+async function renameDoc() {
+  // Only check name if renaming docname is allowed
+  if (props.title === _name.value.title && (!allowRenameDocname.value || props.docname === _name.value.name)) return
+  try {
+    const renamed_docname = await call('frappe.model.rename_doc.update_document_title', {
+      doctype: props.doctype,
+      docname: props.docname,
+      title: _name.value.title,
+      // Only send name if allowed, else send original docname
+      name: allowRenameDocname.value ? _name.value.name : props.docname,
+    })
+    show.value = false
+    toast.success(__(`${props.doctype} Renamed`))
+    props.options.afterRename && props.options.afterRename(renamed_docname)
+  } catch (error) {
+    toast.error(error)
+  }
+}
+
+watch(
+  () => show.value,
+  (value) => {
+    if (!value) return
+    nextTick(() => {
+      _name.value.title = props.title
+      _name.value.name = props.docname
+    })
+  },
+)
+</script>

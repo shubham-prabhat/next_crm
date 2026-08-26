@@ -1,0 +1,18 @@
+[pre_model_sync]
+# Patches added in this section will be executed before doctypes are migrated
+# Read docs to understand patches: https://frappeframework.com/docs/v14/user/en/database-migrations
+
+[post_model_sync]
+# Patches added in this section will be executed after doctypes are migrated
+next_crm.patches.v1_0.create_email_template_custom_fields
+next_crm.patches.v1_0.create_default_fields_layout #31/10/2024
+next_crm.patches.v1_0.create_default_sidebar_fields_layout
+next_crm.patches.v1_0.update_opportunity_quick_entry_layout
+next_crm.patches.v1_0.update_crm_settings_lead_contact_creation
+next_crm.patches.v1_0.add_address_sidepanel_layout
+next_crm.patches.v1_0.add_multiple_address_sidepanel_section
+next_crm.patches.v1_0.add_lead_contact_sidepanel_layout
+next_crm.patches.v1_0.modify_opportunity_existing_selection
+next_crm.patches.v1_0.update_won_date
+next_crm.patches.v1_0.update_crm_views_filters
+next_crm.patches.v1_0.add_contracts_documents_section_to_customers
