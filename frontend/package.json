@@ -20,7 +20,7 @@
     "pinia": "^2.0.33",
     "socket.io-client": "^4.7.2",
     "sortablejs": "^1.15.0",
-    "vue": "^3.5.13",
+    "vue": "^3.5.42",
     "vue-router": "^4.2.2",
     "vuedraggable": "^4.1.0",
     "highlight.js": "^11.0.0"
