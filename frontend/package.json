@@ -10,7 +10,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@twilio/voice-sdk": "^2.10.2",
+    "@twilio/voice-sdk": "^2.18.4",
     "@vueuse/core": "^10.3.0",
     "@vueuse/integrations": "^10.3.0",
     "frappe-ui": "^0.1.201",
